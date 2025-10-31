@@ -18,4 +18,11 @@ public class ProductosController : Controller
         List<Producto> productos = _repoProducto.Listar();
         return View(productos);
     }
+
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
+
 }
