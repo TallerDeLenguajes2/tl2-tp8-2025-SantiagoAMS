@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\UNI\\taller_2\\TP8\\tl2-tp8-2025-SantiagoAMS\\TP8\\TP8.csproj": {}
+    "D:\\UNI\\taller_2\\TP8\\tl2-tp8-2025-SantiagoAMS\\TP8.csproj": {}
   },
   "projects": {
-    "D:\\UNI\\taller_2\\TP8\\tl2-tp8-2025-SantiagoAMS\\TP8\\TP8.csproj": {
+    "D:\\UNI\\taller_2\\TP8\\tl2-tp8-2025-SantiagoAMS\\TP8.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\UNI\\taller_2\\TP8\\tl2-tp8-2025-SantiagoAMS\\TP8\\TP8.csproj",
+        "projectUniqueName": "D:\\UNI\\taller_2\\TP8\\tl2-tp8-2025-SantiagoAMS\\TP8.csproj",
         "projectName": "TP8",
-        "projectPath": "D:\\UNI\\taller_2\\TP8\\tl2-tp8-2025-SantiagoAMS\\TP8\\TP8.csproj",
+        "projectPath": "D:\\UNI\\taller_2\\TP8\\tl2-tp8-2025-SantiagoAMS\\TP8.csproj",
         "packagesPath": "C:\\Users\\Zonby\\.nuget\\packages\\",
-        "outputPath": "D:\\UNI\\taller_2\\TP8\\tl2-tp8-2025-SantiagoAMS\\TP8\\obj\\",
+        "outputPath": "D:\\UNI\\taller_2\\TP8\\tl2-tp8-2025-SantiagoAMS\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Zonby\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -42,6 +42,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Data.SQLite": {
+              "target": "Package",
+              "version": "[9.0.10, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
