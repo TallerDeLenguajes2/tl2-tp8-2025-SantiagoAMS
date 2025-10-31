@@ -52,7 +52,7 @@ public class Presupuesto
         double ret = 0;
         foreach (var p in Detalle)
         {
-            ret += p.Producto.Precio * p.Cantidad;
+            ret += p.Subtotal();
         }
         return ret;
     }

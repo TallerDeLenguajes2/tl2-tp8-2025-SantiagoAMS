@@ -1,0 +1,47 @@
+@using models;
+@model Presupuesto;
+
+@if (Model==null){
+    <h1 class="p-2 bg-danger text-center text-light">Error: Presupuesto no encontrado...</h1>    
+    return;
+}
+<h1>Presupuesto N° @(Model.IdPresupuesto)</h1>
+
+<section>
+    <style>
+    .money{
+        text-align: right;
+        font-weight: bolder;
+    }
+    </style>
+    <table class="w-100 table table-striped">
+        <thead class="text-center p-2 bg-success text-light">
+            <th>Código</th>
+            <th>Descripcion</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Subtotal</th>
+            <th>Subtotal c/ IVA</th>
+        </thead>
+        <tbody>
+            @foreach (var prod in Model.Detalle){
+                <tr style="border: 1px solid black;">
+                    <td class="text-center">@(prod.Producto.IdProducto)</td>
+                    <td class="text-left">@(prod.Producto.Descripcion)</td>
+                    <td class="text-center">@(prod.Cantidad)</td>
+                    <td class="text-end">$@(prod.Producto.Precio)</td>
+                    <td class="text-end">$@(prod.Subtotal())</td>
+                    <td class="text-end">$@(prod.SubtotalConIva())</td>
+
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6" class="text-end bolder w-100"> 
+                    <strong>$@(Model.MontoPresupuestoConIva())</strong>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</section>

@@ -15,6 +15,12 @@ public class PresupuestoDetalle
         this.Cantidad = cant;
     }
 
+    public double Subtotal(){
+        return this.Producto.Precio * this.Cantidad;
+    }
     
+    public double SubtotalConIva(){
+        return Subtotal() * 1.21;
+    }
 
 }
