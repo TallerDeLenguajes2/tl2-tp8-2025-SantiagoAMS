@@ -1,0 +1,8 @@
+@using models;
+@model Producto;
+
+@if (Model==null){
+    <h1 class="p-2 bg-danger text-center text-light">Error: Producto no encontrado...</h1>    
+    return;
+}
+<h1>Producto N° @(Model.IdProducto)</h1>

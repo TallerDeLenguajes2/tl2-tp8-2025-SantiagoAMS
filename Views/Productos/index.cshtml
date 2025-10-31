@@ -1,6 +1,31 @@
+@using models;
+@model List<Producto>;
 @{
     ViewData["Title"] = "Productos";
 }
 
 <h1>@ViewData["Title"]</h1>
+
+<section>
+    <table class="w-100 table table-striped">
+        <thead class="text-center p-2 bg-success text-light">
+            <th>Código</th>
+            <th>Descripcion</th>
+            <th>Precio</th>
+            <th>Modificar</th>
+        </thead>
+        <tbody>
+            @foreach (var prod in Model){
+                <tr style="border: 1px solid black;">
+                    <td class="text-center">@(prod.IdProducto)</td>
+                    <td class="text-left">@(prod.Descripcion)</td>
+                    <td class="text-end">$@(prod.Precio)</td>
+                    <td class="text-center">
+                        <a asp-controller="Productos" asp-action="Edit" asp-route-id="@prod.IdProducto">Modificar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
 

@@ -1,8 +1,13 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace models;
 
 public class Producto{
-    public int IdProducto {get;set;}
-    public string Descripcion {get;set;}
+    [Display(Name = "ID del producto")]
+    public int IdProducto { get; set; }
+    [Display(Name = "Descripcion del producto")]
+    public string Descripcion { get; set; }
+    [Display(Name="Precio del producto")]
     public double Precio {get;set;}
 
     public Producto(int id, string descripcion, double precio) {

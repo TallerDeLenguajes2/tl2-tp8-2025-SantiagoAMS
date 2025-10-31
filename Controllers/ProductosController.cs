@@ -25,4 +25,11 @@ public class ProductosController : Controller
         return View();
     }
 
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        var p = _repoProducto.Obtener(id);
+        return View(p);
+    }
+
 }

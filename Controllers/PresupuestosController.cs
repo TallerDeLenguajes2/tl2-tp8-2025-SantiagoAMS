@@ -15,7 +15,7 @@ public class PresupuestosController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        var presupuestos = _repoPresu.Listar();
+        var presupuestos = _repoPresu.Listar(true);
         return View(presupuestos);
     }
 

@@ -1,6 +1,33 @@
+@using models;
+@model List<Presupuesto>
 @{
     ViewData["Title"] = "Presupuestos";
 }
 
 <h1>@ViewData["Title"]</h1>
 
+
+<section>
+    <table class="w-100 table table-striped">
+        <thead class="text-center p-2 bg-success text-light">
+            <th>Código</th>
+            <th>Fecha</th>
+            <th>Destinatario</th>
+            <th>Productos</th>
+            <th>Subtotal</th>
+            <th>Subtotal c/IVA</th>
+        </thead>
+        <tbody>
+            @foreach (var pres in Model){
+                <tr style="border: 1px solid black;">
+                    <td class="text-center">@(pres.IdPresupuesto)</td>
+                    <td class="text-center">@(pres.FechaCreacion.ToString("dd/MM/yyyy"))</td>
+                    <td class="text-left">@(pres.NombreDestinatario)</td>
+                    <td class="text-center">@(pres.CantidadProductos())</td>
+                    <td class="text-end">$@(pres.MontoPresupuesto())</td>
+                    <td class="text-end">$@(pres.MontoPresupuestoConIva())</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>

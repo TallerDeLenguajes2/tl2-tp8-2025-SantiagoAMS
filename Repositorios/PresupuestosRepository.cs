@@ -34,7 +34,7 @@ public class PresupuestosRepository
         }
     }
 
-    public List<Presupuesto> Listar(bool obtenerDetalles = false)
+    public List<Presupuesto> Listar(bool obtenerDetalles = true)
     {
         List<Presupuesto> ret = [];
         using (SqliteConnection con = ConnectAndEnsureTable())
@@ -60,6 +60,7 @@ public class PresupuestosRepository
                 foreach (var pr in ret)
                 {
                     pr.Detalle = ObtenerDetalles(pr);
+                    
                 }
             }
             return ret;
