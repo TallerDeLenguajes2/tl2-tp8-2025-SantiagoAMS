@@ -6,7 +6,7 @@ public class PresupuestoDetalle
 
     public PresupuestoDetalle()
     {
-
+        
     }
 
     public PresupuestoDetalle(Producto p, int cant)

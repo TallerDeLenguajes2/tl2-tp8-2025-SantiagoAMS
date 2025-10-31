@@ -121,7 +121,9 @@ public class PresupuestosRepository
                     }
                 }
             }
-            
+            if (ret == null){
+                return null;
+            }
             ret.Detalle = ObtenerDetalles(ret);
             return ret;
         }
