@@ -17,6 +17,8 @@
         <input class="w-100" asp-for="NombreDestinatario" type="text"/>
     </article>
 
-    <button type="submit" class="m-2 btn btn-submit btn-success">Modificar</button>
-     
+    <article class="w-100 d-flex">
+        <button type="submit" class="m-2 btn btn-submit btn-success">Modificar</button>
+        <a class="m-2 btn btn-danger" asp-controller="Presupuestos" asp-action="Delete" asp-route-id="@Model.IdPresupuesto">Eliminar</a>
+    </article>
 </form>

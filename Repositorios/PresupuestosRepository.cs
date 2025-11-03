@@ -188,11 +188,10 @@ public class PresupuestosRepository
     {
         using SqliteConnection con = ConnectAndEnsureTable();
     
-        string sql = "DELETE FROM Presupuestos WHERE idPresupuesto = @id; DELETE FROM PresupuestosDetalle WHERE idPresupuesto = @id";
+        string sql = "DELETE FROM PresupuestosDetalle WHERE idPresupuesto = @id;DELETE FROM Presupuestos WHERE idPresupuesto = @id";
         using var cmd = new SqliteCommand(sql, con);
         
-        cmd.Parameters.AddWithValue("@idPre", idPresupuesto);
-        cmd.Parameters.AddWithValue("@idPre", idPresupuesto);
+        cmd.Parameters.AddWithValue("@id", idPresupuesto);
         cmd.ExecuteNonQuery();
         return true;
             
