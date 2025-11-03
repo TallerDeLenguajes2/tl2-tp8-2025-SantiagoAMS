@@ -22,7 +22,16 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult Create()
     {
+        Console.WriteLine("Create get");
         return View();
+    }
+
+    [HttpPost]
+    public IActionResult Create(Producto p)
+    {
+        Console.WriteLine("Create post "+p.Descripcion);
+        _repoProducto.Crear(p);
+        return RedirectToAction("Index");
     }
 
     [HttpGet]

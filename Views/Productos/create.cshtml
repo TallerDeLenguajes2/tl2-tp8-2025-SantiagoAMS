@@ -1,0 +1,22 @@
+@using models
+@model Producto
+
+<h1>Crear nuevo producto</h1>
+
+<form asp-controller="Productos" asp-action="Create" method="post">
+
+    <article class="p-2 w-50">
+        <label for="Descripcion">Descripcion</label>
+        <input class="w-100" asp-for="Descripcion" type="text"/>
+    </article>
+
+    <article class="p-2 w-50">
+        <label for="Precio">Precio</label>
+        <input asp-for="Precio" type="number"/>
+    </article>
+
+    <article class="w-100 d-flex flex-end">
+        <button class="m-2 btn btn-submit btn-success" type="submit" >Crear</button>
+    </article>
+    
+</form>
