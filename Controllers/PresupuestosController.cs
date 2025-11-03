@@ -41,6 +41,8 @@ public class PresupuestosController : Controller
     [HttpPost]
     public IActionResult Create(Presupuesto p)
     {
+        var now = DateTime.Now;
+        p.FechaCreacion = new DateOnly(now.Year, now.Month, now.Day);
         _repoPresu.Crear(p);
         return RedirectToAction("Index");
     }
