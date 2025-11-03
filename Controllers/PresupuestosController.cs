@@ -57,13 +57,16 @@ public class PresupuestosController : Controller
     [HttpPost]
     public IActionResult Edit(Presupuesto p)
     {
-        _repoPresu.ModificarDatos(p);
-        foreach (var d in p.Detalle)
+        _repoPresu.ModificarDatos(p);   
+        if (p.Detalle != null)
         {
-            _repoPresu.ModificarDetalle(d);    
+            foreach (var d in p.Detalle)
+            {
+                _repoPresu.ModificarDetalle(d);
+            }
         }
-        
-        return View(p);
+
+        return RedirectToAction("Index");
     }
 
     [HttpGet]
@@ -72,7 +75,7 @@ public class PresupuestosController : Controller
         var p = _repoPresu.Obtener(id);
         return View(p);
     }
-    
+
     [HttpPost]
     public IActionResult Delete(Presupuesto p)
     {
@@ -80,5 +83,7 @@ public class PresupuestosController : Controller
         return RedirectToAction("Index");
     }
 
-   
+
+
+
 }

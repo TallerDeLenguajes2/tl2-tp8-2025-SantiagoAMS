@@ -21,8 +21,10 @@
     </article>
 
     <article class="w-100 d-flex">
-        <button class="m-2 btn btn-submit btn-success" type="submit" >Modificar</button>
+        <a class="m-2 btn btn-info" asp-controller="Productos" asp-action="Index" >@("<") Cancelar</a>
         <a class="m-2 btn btn-danger" asp-controller="Productos" asp-action="Delete" asp-route-id="@Model.IdProducto">Eliminar</a>
+        
+        <button class="m-2 btn btn-submit btn-success" type="submit" >Modificar</button>
     </article>
     
 </form>
