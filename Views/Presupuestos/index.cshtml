@@ -16,6 +16,7 @@
             <th>Productos</th>
             <th>Subtotal</th>
             <th>Subtotal c/IVA</th>
+            <th>Detalles</th>
         </thead>
         <tbody>
             @foreach (var pres in Model){
@@ -26,6 +27,9 @@
                     <td class="text-center">@(pres.CantidadProductos())</td>
                     <td class="text-end">$@(pres.MontoPresupuesto())</td>
                     <td class="text-end">$@(pres.MontoPresupuestoConIva())</td>
+                    <td class="text-center">
+                        <a asp-controller="Presupuestos" asp-action="Details" asp-route-id="@(pres.IdPresupuesto)">Detalles</a>
+                    </td>
                 </tr>
             }
         </tbody>

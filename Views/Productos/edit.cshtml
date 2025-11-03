@@ -7,3 +7,18 @@
 }
 
 <h1>Modificar Producto N° @(Model.IdProducto)</h1>
+<form asp-controller="Productos" asp-action="Edit" method="post">
+    <input type="hidden" asp-for="IdProducto" />
+
+    <article class="p-2 w-50">
+        <label for="Descripcion">Descripcion</label>
+        <input class="w-100" asp-for="Descripcion" type="text"/>
+    </article>
+
+    <article class="p-2 w-50">
+        <label for="Precio">Precio</label>
+        <input asp-for="Precio" type="number"/>
+    </article>
+
+    <button type="submit" class="m-2 btn btn-submit btn-success">Enviar</button>    
+</form>

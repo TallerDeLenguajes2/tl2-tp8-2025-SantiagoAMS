@@ -32,4 +32,12 @@ public class ProductosController : Controller
         return View(p);
     }
 
+    [HttpPost]
+    public IActionResult Edit(Producto p)
+    {   
+        Console.WriteLine(p.IdProducto+", "+p.Descripcion+", "+p.Precio);
+        _repoProducto.Modificar(p.IdProducto, p);
+        return RedirectToAction("Index");
+    }
+
 }
