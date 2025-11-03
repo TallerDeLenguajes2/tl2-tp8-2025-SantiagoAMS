@@ -8,3 +8,15 @@
 
 <h1>Modificar Presupuesto N° @(Model.IdPresupuesto)</h1>
 
+<form asp-controller="Presupuestos" asp-action="Edit" method="post">
+    <input type="hidden" asp-for="IdPresupuesto" />
+    <input type="hidden" asp-for="FechaCreacion" />
+
+    <article class="p-2 w-50">
+        <label for="NombreDestinatario">Nombre del destinatario</label>
+        <input class="w-100" asp-for="NombreDestinatario" type="text"/>
+    </article>
+
+    <button type="submit" class="m-2 btn btn-submit btn-success">Modificar</button>
+     
+</form>

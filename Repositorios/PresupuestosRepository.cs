@@ -34,6 +34,25 @@ public class PresupuestosRepository
         }
     }
 
+    public bool ModificarDatos(Presupuesto p)
+    {
+        using (var con = ConnectAndEnsureTable())
+        {
+            string sql = "UPDATE Presupuestos SET NombreDestinatario = @nom WHERE idPresupuesto = @id";
+            using (var cmd = new SqliteCommand(sql, con))
+            {
+                
+                cmd.Parameters.AddWithValue("@nom", p.NombreDestinatario);
+                cmd.Parameters.AddWithValue("@id", p.IdPresupuesto);
+                //cmd.Parameters.AddWithValue("@fec", p.FechaCreacion);
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+        }
+    }
+
+    
+
     public List<Presupuesto> Listar(bool obtenerDetalles = true)
     {
         List<Presupuesto> ret = [];
@@ -81,7 +100,7 @@ public class PresupuestosRepository
         List<PresupuestoDetalle> list = [];
 
         using var con = ConnectAndEnsureTable();
-        string sql = "SELECT pr.idProducto, pr.Descripcion, pr.Precio, pd.Cantidad FROM Productos AS pr, PresupuestosDetalle AS pd WHERE pd.idPresupuesto = @idpres AND pr.idProducto = pd.idProducto";
+        string sql = "SELECT pd.id, pr.idProducto, pr.Descripcion, pr.Precio, pd.Cantidad FROM Productos AS pr, PresupuestosDetalle AS pd WHERE pd.idPresupuesto = @idpres AND pr.idProducto = pd.idProducto";
         using var cmd = new SqliteCommand(sql, con);
         cmd.Parameters.AddWithValue("@idpres", idPresupuesto);
         using (SqliteDataReader reader = cmd.ExecuteReader())
@@ -89,11 +108,14 @@ public class PresupuestosRepository
             while (reader.Read())
             {
                 list.Add(new PresupuestoDetalle(
+                    reader.GetInt32(0),
                     new Producto(
-                        reader.GetInt32(0),
-                        reader.GetString(1),
-                        reader.GetDouble(2)
-                    ), reader.GetInt32(3)
+                        reader.GetInt32(1),
+                        reader.GetString(2),
+                        reader.GetDouble(3)
+                    )
+                    , idPresupuesto
+                    , reader.GetInt32(4)
                 )
                 );
             }
@@ -141,19 +163,39 @@ public class PresupuestosRepository
         return Convert.ToInt32(cmd.ExecuteNonQuery());
     }
 
+    public int ModificarDetalle(PresupuestoDetalle pd)
+    {
+        using var con = ConnectAndEnsureTable();
+
+        string sql;
+        if (pd.Cantidad == 0)
+        {
+            sql = "DELETE FROM PresupuestosDetalles WHERE id = @id; SELECT last_insert_rowid()";
+        }
+        else
+        {
+            sql = "UPDATE PresupuestosDetalles SET cantidad = @cant WHERE id = @id; SELECT last_insert_rowid()";
+        }
+        
+        using var cmd = new SqliteCommand(sql, con);
+        
+        cmd.Parameters.AddWithValue("@id", pd.Id);
+        cmd.Parameters.AddWithValue("@cant", pd.Cantidad);
+        return Convert.ToInt32(cmd.ExecuteNonQuery());
+    }
+
     public bool Eliminar(int idPresupuesto)
     {
-        using (SqliteConnection con = ConnectAndEnsureTable())
-        {
-            string sql = "DELETE FROM Presupuestos WHERE idPresupuesto = @id; DELETE FROM PresupuestosDetalle WHERE idPresupuesto = @id";
-            using (var cmd = new SqliteCommand(sql, con))
-            {
-                cmd.Parameters.AddWithValue("@idPre", idPresupuesto);
-                cmd.Parameters.AddWithValue("@idPre", idPresupuesto);
-                cmd.ExecuteNonQuery();
-                return true;
-            }
-        }
+        using SqliteConnection con = ConnectAndEnsureTable();
+    
+        string sql = "DELETE FROM Presupuestos WHERE idPresupuesto = @id; DELETE FROM PresupuestosDetalle WHERE idPresupuesto = @id";
+        using var cmd = new SqliteCommand(sql, con);
+        
+        cmd.Parameters.AddWithValue("@idPre", idPresupuesto);
+        cmd.Parameters.AddWithValue("@idPre", idPresupuesto);
+        cmd.ExecuteNonQuery();
+        return true;
+            
     }
 
 }

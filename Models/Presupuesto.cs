@@ -2,9 +2,9 @@ namespace models;
 
 public class Presupuesto
 {
-    public int IdPresupuesto { get; private set; }
-    public string NombreDestinatario { get; private set; }
-    public DateOnly FechaCreacion { get; private set; }
+    public int IdPresupuesto { get; set; }
+    public string NombreDestinatario { get; set; }
+    public DateOnly FechaCreacion { get; set; }
     public List<PresupuestoDetalle> Detalle { get; set; }
 
 

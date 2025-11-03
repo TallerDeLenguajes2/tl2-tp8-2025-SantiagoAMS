@@ -34,9 +34,21 @@ public class ProductosController : Controller
 
     [HttpPost]
     public IActionResult Edit(Producto p)
-    {   
-        Console.WriteLine(p.IdProducto+", "+p.Descripcion+", "+p.Precio);
+    {
         _repoProducto.Modificar(p.IdProducto, p);
+        return RedirectToAction("Index");
+    }
+    [HttpGet]
+    public IActionResult Delete(int id)
+    {
+        var p = _repoProducto.Obtener(id);
+        return View(p);
+    }
+
+    [HttpPost]
+    public IActionResult Delete(Producto p)
+    {           
+        _repoProducto.Borrar(p.IdProducto);
         return RedirectToAction("Index");
     }
 
