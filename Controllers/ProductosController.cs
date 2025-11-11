@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using models;
+using viewmodel;
 
 namespace TP8.Controllers;
 
@@ -27,11 +28,18 @@ public class ProductosController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(Producto p)
+    public IActionResult Create(ProductoViewModel pvm)
     {
-        Console.WriteLine("Create post "+p.Descripcion);
-        _repoProducto.Crear(p);
-        return RedirectToAction("Index");
+        if (!ModelState.IsValid){
+            return View(pvm);
+        }
+        var newProd = new Producto
+        {
+            Descripcion = pvm.Descripcion,
+            Precio = (double)pvm.Precio
+        };
+        _repoProducto.Crear(newProd);
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
@@ -42,10 +50,24 @@ public class ProductosController : Controller
     }
 
     [HttpPost]
-    public IActionResult Edit(Producto p)
+    public IActionResult Edit(int id, ProductoViewModel pvm)
     {
-        _repoProducto.Modificar(p.IdProducto, p);
-        return RedirectToAction("Index");
+        if (pvm == null || id != pvm.IdProducto)
+        {
+            return NotFound();
+        }
+        if (!ModelState.IsValid)
+        {
+            return View(pvm);
+        }
+        var pr = new Producto
+        {
+            IdProducto = pvm.IdProducto,
+            Descripcion = pvm.Descripcion,
+            Precio = (double)pvm.Precio
+        };
+        _repoProducto.Modificar(pr.IdProducto, pr);
+        return RedirectToAction(nameof(Index));
     }
     [HttpGet]
     public IActionResult Delete(int id)

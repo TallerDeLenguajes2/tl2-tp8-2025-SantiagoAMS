@@ -9,7 +9,7 @@ public class ProductoViewModel
     public int IdProducto { get; set; }
 
     [Display(Name="Descripcion del producto")]
-    [StringLength(250, ErrorMessage="La descripción no puede superar los 250 caracteres.")
+    [StringLength(250, ErrorMessage="La descripción no puede superar los 250 caracteres.")]
     public string Descripcion { get; set; }
 
     [Display(Name = "Precio Unitario")]
