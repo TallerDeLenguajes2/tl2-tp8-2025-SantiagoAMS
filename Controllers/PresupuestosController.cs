@@ -1,15 +1,19 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using models;
+using viewmodel;
 
 namespace TP8.Controllers;
 
 public class PresupuestosController : Controller
 {
     private PresupuestosRepository _repoPresu;
+    private ProductoRepository _repoProducto;
     public PresupuestosController()
     {
         _repoPresu = new PresupuestosRepository();
+        _repoProducto = new ProductoRepository();
     }
 
     [HttpGet]
@@ -39,12 +43,24 @@ public class PresupuestosController : Controller
         return View();
     }
     [HttpPost]
-    public IActionResult Create(Presupuesto p)
+    public IActionResult Create(PresupuestoViewModel pvm)
     {
-        var now = DateTime.Now;
-        p.FechaCreacion = new DateOnly(now.Year, now.Month, now.Day);
-        _repoPresu.Crear(p);
-        return RedirectToAction("Index");
+        if (!ModelState.IsValid)
+        {
+            return View(pvm);
+        }
+        if (pvm.FechaCreacion > DateTime.Now)
+        {
+            return View(pvm);
+        }
+        var fc = pvm.FechaCreacion;
+        var newPres = new Presupuesto
+        {
+            NombreDestinatario = pvm.NombreDestinatario,
+            FechaCreacion = new DateOnly(fc.Year, fc.Month,fc.Day)
+        };
+        _repoPresu.Crear(newPres);
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
@@ -80,10 +96,34 @@ public class PresupuestosController : Controller
     public IActionResult Delete(Presupuesto p)
     {
         _repoPresu.Eliminar(p.IdPresupuesto);
-        return RedirectToAction("Index");
+        return RedirectToAction(nameof(Index));
     }
 
 
+    [HttpGet]
+    public IActionResult AgregarProducto(int id){
+        List<Producto> productos = _repoProducto.Listar();
+        var apvm = new AgregarProductoViewModel
+        {
+            IdPresupuesto = id,
+            ListaProducto = new SelectList(productos,"IdProducto","Descripcion")
+        };
+        return View(apvm);
+    }
+    
+    [HttpPost]
+    public IActionResult AgregarProducto(AgregarProductoViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            var productos = _repoProducto.Listar();
+            model.ListaProducto = new SelectList(productos, "IdProducto", "Descripcion");
+            return View(model);
+        }
+        _repoPresu.Agregar(model.IdPresupuesto, model.IdProducto, model.Cantidad);
+        return RedirectToAction(nameof(Index), new { id = model.IdPresupuesto });
+        
+    }
 
 
 }

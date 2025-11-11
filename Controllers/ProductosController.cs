@@ -23,7 +23,6 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        Console.WriteLine("Create get");
         return View();
     }
 

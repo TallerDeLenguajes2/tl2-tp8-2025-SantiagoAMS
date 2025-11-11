@@ -5,14 +5,25 @@
 
 <form asp-controller="Presupuestos" asp-action="Create" method="post">
 
-    <article class="p-2 w-50">
-        <label for="NombreDestinatario">Nombre del destinatario</label>
-        <input class="w-100" asp-for="NombreDestinatario" type="text"/>
+    <article class="form-group">
+        <label asp-for="NombreDestinatario" class="form-label"></label>
+        <input asp-for="NombreDestinatario" class="form-control" type="text"/>
+        <span asp-validation-for="NombreDestinatario" class="text-danger"></span>
     </article>
 
-    <article class="w-100 d-flex flex-end">
-        <a class="m-2 btn btn-info" asp-controller="Presupuestos" asp-action="Index" >@("<") Cancelar</a>
+    <article class="form-group">
+        <label asp-for="FechaCreacion" class="form-label"></label>
+        <input asp-for="FechaCreacion" class="form-control" type="date">
+        <input asp-for="FechaCreacion" class="text-danger" type="text"/>
+    </article>
+
+    <article class="form-group">
+        <a class="m-2 btn btn-info" asp-action="Index" >@("<") Cancelar</a>
         <button class="m-2 btn btn-submit btn-success" type="submit" >Crear</button>
     </article>
     
 </form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial"/>
+}

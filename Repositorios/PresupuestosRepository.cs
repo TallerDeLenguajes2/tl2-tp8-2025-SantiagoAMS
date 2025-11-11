@@ -152,6 +152,16 @@ public class PresupuestosRepository
         }
     }
 
+    public int Agregar(int idPresupuesto, int idProducto, int cantidad){
+        using SqliteConnection con = ConnectAndEnsureTable();
+        string sql = "INSERT INTO PresupuestosDetalle (idPresupuesto,idProducto,cantidad) VALUES(@idPre, @idProd, @cant); SELECT last_insert_rowid();";
+        using var cmd = new SqliteCommand(sql, con);
+        cmd.Parameters.AddWithValue("@idPre", idPresupuesto);
+        cmd.Parameters.AddWithValue("@idProd", idProducto);
+        cmd.Parameters.AddWithValue("@cant", cantidad);
+        return Convert.ToInt32(cmd.ExecuteNonQuery());
+    }
+
     public int Agregar(int idPresupuesto, Producto producto, int cantidad)
     {
         using SqliteConnection con = ConnectAndEnsureTable();

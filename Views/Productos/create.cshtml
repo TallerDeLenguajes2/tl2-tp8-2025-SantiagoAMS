@@ -1,22 +1,33 @@
-@using models
-@model Producto
+@using viewmodel
+@model ProductoViewModel
+
+@{
+    ViewData["Title"] = "Crear producto";
+}
 
 <h1>Crear nuevo producto</h1>
 
-<form asp-controller="Productos" asp-action="Create" method="post">
+<form asp-action="Create" method="post">
 
-    <article class="p-2 w-50">
-        <label for="Descripcion">Descripcion</label>
-        <input class="w-100" asp-for="Descripcion" type="text"/>
+
+    <article class="form-group">
+        <label asp-for="Descripcion" class="control-label"></label>
+        <input asp-for="Descripcion" class="form-control"/>
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
     </article>
 
-    <article class="p-2 w-50">
-        <label for="Precio">Precio</label>
-        <input asp-for="Precio" type="number"/>
+    <article class="form-group">
+        <label asp-for="Precio" class="control-label"></label>
+        <input asp-for="Precio" class="form-control"/>
+        <span asp-validation-for="Precio" class="text-danger"></span>
     </article>
 
-    <article class="w-100 d-flex flex-end">
-        <button class="m-2 btn btn-submit btn-success" type="submit" >Crear</button>
+    <article class="form-group mt-3">
+        <button class="btn btn-submit btn-info" type="submit">Crear</button>
     </article>
     
 </form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial"/>
+}
