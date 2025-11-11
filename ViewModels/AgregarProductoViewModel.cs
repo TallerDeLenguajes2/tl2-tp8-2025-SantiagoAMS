@@ -5,8 +5,10 @@ namespace viewmodel;
 
 public class AgregarProductoViewModel
 {
-    
+    [Display(Name="ID del presupuesto")]
     public int IdPresupuesto{get;set;}
+
+    [Display(Name="ID del producto")]
     public int IdProducto{get;set;}
 
     [Display(Name="Cantidad")]
