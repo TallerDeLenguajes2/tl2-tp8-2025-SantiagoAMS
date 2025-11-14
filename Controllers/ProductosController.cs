@@ -16,7 +16,7 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        List<Producto> productos = _repoProducto.Listar();
+        List<Producto> productos = _repoProducto.GetAll();
         return View(productos);
     }
 
@@ -37,14 +37,14 @@ public class ProductosController : Controller
             Descripcion = pvm.Descripcion,
             Precio = (double)pvm.Precio
         };
-        _repoProducto.Crear(newProd);
+        _repoProducto.Add(newProd);
         return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
     public IActionResult Edit(int id)
     {
-        var p = _repoProducto.Obtener(id);
+        var p = _repoProducto.Get(id);
         return View(p);
     }
 
@@ -65,20 +65,20 @@ public class ProductosController : Controller
             Descripcion = pvm.Descripcion,
             Precio = (double)pvm.Precio
         };
-        _repoProducto.Modificar(pr.IdProducto, pr);
+        _repoProducto.Update(pr.IdProducto, pr);
         return RedirectToAction(nameof(Index));
     }
     [HttpGet]
     public IActionResult Delete(int id)
     {
-        var p = _repoProducto.Obtener(id);
+        var p = _repoProducto.Get(id);
         return View(p);
     }
 
     [HttpPost]
     public IActionResult Delete(Producto p)
     {           
-        _repoProducto.Borrar(p.IdProducto);
+        _repoProducto.Delete(p.IdProducto);
         return RedirectToAction("Index");
     }
 

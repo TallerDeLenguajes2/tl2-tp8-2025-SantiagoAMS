@@ -102,7 +102,7 @@ public class PresupuestosController : Controller
 
     [HttpGet]
     public IActionResult AgregarProducto(int id){
-        List<Producto> productos = _repoProducto.Listar();
+        List<Producto> productos = _repoProducto.GetAll();
         var apvm = new AgregarProductoViewModel
         {
             IdPresupuesto = id,
@@ -116,7 +116,7 @@ public class PresupuestosController : Controller
     {
         if (!ModelState.IsValid)
         {
-            var productos = _repoProducto.Listar();
+            var productos = _repoProducto.GetAll();
             model.ListaProducto = new SelectList(productos, "IdProducto", "Descripcion");
             return View(model);
         }
