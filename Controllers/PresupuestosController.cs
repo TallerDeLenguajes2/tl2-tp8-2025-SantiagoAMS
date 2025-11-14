@@ -30,6 +30,12 @@ public class PresupuestosController : Controller
     [HttpGet]
     public IActionResult Index()
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null)
+        {
+            return securityCheck;
+        }
+
         var presupuestos = _repoPresu.GetAll(true);
         return View(presupuestos);
     }
@@ -54,6 +60,7 @@ public class PresupuestosController : Controller
     {
         return View();
     }
+
     [HttpPost]
     public IActionResult Create(PresupuestoViewModel pvm)
     {
@@ -138,5 +145,35 @@ public class PresupuestosController : Controller
         
     }
     ////////////////////////////////////////////////////////////////////////
+    /// ////////////////////////////////////////////////////////////////////////
+    
+    
+    private IActionResult CheckAdminPermissions() 
+    { 
+        if (!_auth.IsAuthenticated()) 
+        { 
+            return RedirectToAction("Index", "Login"); 
+        } 
+
+        if (!_auth.HasAccessLevel("Administrador")) 
+        { 
+            return RedirectToAction(nameof(AccesoDenegado)); 
+        } 
+        return null; // Permiso concedido 
+    } 
+
+    private IActionResult CheckClientePermissions() 
+    { 
+        if (!_auth.IsAuthenticated()) 
+        { 
+            return RedirectToAction("Index", "Login"); 
+        } 
+
+        if (!_auth.HasAccessLevel("Cliente")) 
+        { 
+            return RedirectToAction(nameof(AccesoDenegado)); 
+        } 
+        return null; // Permiso concedido 
+    } 
 
 }

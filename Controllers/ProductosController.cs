@@ -29,6 +29,8 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult Index()
     {
+        var securityCheck = CheckAdminPermissions(); 
+            if (securityCheck != null) return securityCheck; 
         List<Producto> productos = _repoProducto.GetAll();
         return View(productos);
     }
@@ -94,5 +96,19 @@ public class ProductosController : Controller
         _repoProducto.Delete(p.IdProducto);
         return RedirectToAction("Index");
     }
+
+    /////////////////////////////////////////////////////////////
+    private IActionResult CheckAdminPermissions() 
+    { 
+        if (!_auth.IsAuthenticated()) 
+        { 
+            return RedirectToAction("Index", "Login"); 
+        } 
+        if (!_auth.HasAccessLevel("Administrador")) 
+        { 
+            return RedirectToAction(nameof(AccesoDenegado)); 
+        } 
+        return null; // Permiso concedido 
+    } 
 
 }
