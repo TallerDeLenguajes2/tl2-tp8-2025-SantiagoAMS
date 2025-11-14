@@ -1,7 +1,7 @@
 using models;
 using interfaces;
 using Microsoft.Data.Sqlite;
-
+namespace repositorios;
 public class UsuarioRepository : IUserRepository
 {
     private string _connectionString = "Data Source=DB/tienda.db";

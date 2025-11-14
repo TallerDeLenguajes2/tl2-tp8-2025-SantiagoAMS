@@ -1,9 +1,32 @@
-var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+using interfaces;
+using repositorios;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+
+
+
+var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
+
+// Sesion y acceso a contexto
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout=TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// Regitra la inyeccion de dependencias
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+builder.Services.AddScoped<IPresupuestoRepository, PresupuestosRepository>();
+builder.Services.AddScoped<IUserRepository, UsuarioRepository>();
+
+
 var app = builder.Build();
+app.UseSession();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -15,9 +38,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(

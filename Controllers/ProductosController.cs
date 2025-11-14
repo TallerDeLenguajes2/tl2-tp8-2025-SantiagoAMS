@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using models;
 using viewmodel;
+using repositorios;
 
 namespace TP8.Controllers;
 
