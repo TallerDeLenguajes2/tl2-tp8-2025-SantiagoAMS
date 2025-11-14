@@ -1,0 +1,21 @@
+@model dynamic
+@{
+    ViewData["Title"] = "Acceso Denegado";
+}
+
+<section class="row">
+    <article class="col-md-10 mx-auto text-center">
+        <h1 class="tex-danger">Acceso denegado (Error 403)</h1>
+        <h2>Lo sentimos.</h2> 
+        <p>            
+            Usted no tiene acceso a esta funcionalidad...
+        </p>  
+        
+        <article class="mt-4">
+            <a asp-action="Index" class="btn btn-primary">Volver al listado</a>
+            <a asp-action="Login" asp-action="Logout" class="btn btn-secondary">Cerrar sesion</a>
+        </article>
+
+    </article>
+    
+</section>

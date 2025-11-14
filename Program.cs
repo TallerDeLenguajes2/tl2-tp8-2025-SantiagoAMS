@@ -1,8 +1,9 @@
 
 using interfaces;
+using services;
 using repositorios;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
+
 
 
 
@@ -23,7 +24,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<IPresupuestoRepository, PresupuestosRepository>();
 builder.Services.AddScoped<IUserRepository, UsuarioRepository>();
-
+builder.Services.AddScoped<IAuthenticationService, services.AuthenticationService>(); 
 
 var app = builder.Build();
 app.UseSession();

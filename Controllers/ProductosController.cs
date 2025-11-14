@@ -1,17 +1,29 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using models;
+using interfaces;
 using viewmodel;
+using services;
 using repositorios;
 
 namespace TP8.Controllers;
 
 public class ProductosController : Controller
 {
-    private ProductoRepository _repoProducto;
-    public ProductosController()
+    private IProductoRepository _repoProducto;
+    private IAuthenticationService _auth;
+
+    public ProductosController(IProductoRepository repo, IAuthenticationService auth)
     {
-        _repoProducto = new ProductoRepository();
+        _repoProducto = repo;
+        _auth = auth;
+    }
+
+
+    [HttpGet]
+    public IActionResult AccesoDenegado()
+    {
+        return View();
     }
 
     [HttpGet]

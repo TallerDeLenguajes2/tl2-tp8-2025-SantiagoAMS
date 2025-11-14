@@ -1,21 +1,32 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using services;
 using models;
 using viewmodel;
 using repositorios;
+using interfaces;
 namespace TP8.Controllers;
 
 public class PresupuestosController : Controller
 {
-    private PresupuestosRepository _repoPresu;
-    private ProductoRepository _repoProducto;
-    public PresupuestosController()
+    private IPresupuestoRepository _repoPresu;
+    private IProductoRepository _repoProducto;
+    private IAuthenticationService _auth;
+    public PresupuestosController(IPresupuestoRepository repopresu, IProductoRepository repopro, IAuthenticationService auth)
     {
-        _repoPresu = new PresupuestosRepository();
-        _repoProducto = new ProductoRepository();
+        _repoPresu = repopresu;
+        _repoProducto = repopro;
+        _auth = auth;
     }
 
+    [HttpGet]
+    public IActionResult AccesoDenegado()
+    {
+        return View();
+    }
+    ////////////////////////////////////////////////////////////////////////
+    
     [HttpGet]
     public IActionResult Index()
     {
@@ -36,6 +47,7 @@ public class PresupuestosController : Controller
         var ret = _repoPresu.Get(id);
         return View(ret);
     }
+    ////////////////////////////////////////////////////////////////////////
 
     [HttpGet]
     public IActionResult Create()
@@ -62,7 +74,7 @@ public class PresupuestosController : Controller
         _repoPresu.Add(newPres);
         return RedirectToAction(nameof(Index));
     }
-
+    //////////////////////////////////////////////////////////////////////////////////////////
     [HttpGet]
     public IActionResult Edit(int id)
     {
@@ -85,6 +97,7 @@ public class PresupuestosController : Controller
         return RedirectToAction("Index");
     }
 
+    /////////////////////////////////////////////////////////////////////////////
     [HttpGet]
     public IActionResult Delete(int id)
     {
@@ -99,7 +112,7 @@ public class PresupuestosController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-
+    ////////////////////////////////////////////////////////////////////////
     [HttpGet]
     public IActionResult AgregarProducto(int id){
         List<Producto> productos = _repoProducto.GetAll();
@@ -124,6 +137,6 @@ public class PresupuestosController : Controller
         return RedirectToAction(nameof(Index), new { id = model.IdPresupuesto });
         
     }
-
+    ////////////////////////////////////////////////////////////////////////
 
 }
