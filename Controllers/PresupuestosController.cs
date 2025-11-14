@@ -19,7 +19,7 @@ public class PresupuestosController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        var presupuestos = _repoPresu.Listar(true);
+        var presupuestos = _repoPresu.GetAll(true);
         return View(presupuestos);
     }
 
@@ -33,7 +33,7 @@ public class PresupuestosController : Controller
         //encabezado del presupuesto
         //productos asociados a ese presupesto
 
-        var ret = _repoPresu.Obtener(id);
+        var ret = _repoPresu.Get(id);
         return View(ret);
     }
 
@@ -59,26 +59,26 @@ public class PresupuestosController : Controller
             NombreDestinatario = pvm.NombreDestinatario,
             FechaCreacion = new DateOnly(fc.Year, fc.Month,fc.Day)
         };
-        _repoPresu.Crear(newPres);
+        _repoPresu.Add(newPres);
         return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
     public IActionResult Edit(int id)
     {
-        var p = _repoPresu.Obtener(id);
+        var p = _repoPresu.Get(id);
         return View(p);
     }
 
     [HttpPost]
     public IActionResult Edit(Presupuesto p)
     {
-        _repoPresu.ModificarDatos(p);   
+        _repoPresu.Update(p);   
         if (p.Detalle != null)
         {
             foreach (var d in p.Detalle)
             {
-                _repoPresu.ModificarDetalle(d);
+                _repoPresu.UpdateDetail(d);
             }
         }
 
@@ -88,14 +88,14 @@ public class PresupuestosController : Controller
     [HttpGet]
     public IActionResult Delete(int id)
     {
-        var p = _repoPresu.Obtener(id);
+        var p = _repoPresu.Get(id);
         return View(p);
     }
 
     [HttpPost]
     public IActionResult Delete(Presupuesto p)
     {
-        _repoPresu.Eliminar(p.IdPresupuesto);
+        _repoPresu.Delete(p.IdPresupuesto);
         return RedirectToAction(nameof(Index));
     }
 
@@ -120,7 +120,7 @@ public class PresupuestosController : Controller
             model.ListaProducto = new SelectList(productos, "IdProducto", "Descripcion");
             return View(model);
         }
-        _repoPresu.Agregar(model.IdPresupuesto, model.IdProducto, model.Cantidad);
+        _repoPresu.AddProducto(model.IdPresupuesto, model.IdProducto, model.Cantidad);
         return RedirectToAction(nameof(Index), new { id = model.IdPresupuesto });
         
     }
