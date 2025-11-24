@@ -18,13 +18,13 @@ public class LoginController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-
         return View(new LoginViewModel());
     }
 
     [HttpPost]
     public IActionResult Login(LoginViewModel model)
     {
+        
         if (string.IsNullOrEmpty(model.Username))
         {
             model.ErrorMessage = "Ingresar usuario.";
