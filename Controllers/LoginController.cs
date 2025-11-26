@@ -21,6 +21,12 @@ public class LoginController : Controller
         return View(new LoginViewModel());
     }
 
+    [HttpGet]
+    public IActionResult Login()
+    {
+        return RedirectToAction("Index");
+    }
+
     [HttpPost]
     public IActionResult Login(LoginViewModel model)
     {

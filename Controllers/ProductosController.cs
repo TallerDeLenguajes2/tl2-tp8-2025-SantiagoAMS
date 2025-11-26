@@ -31,6 +31,7 @@ public class ProductosController : Controller
     {
         var securityCheck = CheckAdminPermissions(); 
             if (securityCheck != null) return securityCheck; 
+
         List<Producto> productos = _repoProducto.GetAll();
         return View(productos);
     }
@@ -38,12 +39,18 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult Create()
     {
+        var securityCheck = CheckAdminPermissions(); 
+            if (securityCheck != null) return securityCheck; 
+            
         return View();
     }
 
     [HttpPost]
     public IActionResult Create(ProductoViewModel pvm)
     {
+        var securityCheck = CheckAdminPermissions(); 
+            if (securityCheck != null) return securityCheck; 
+
         if (!ModelState.IsValid){
             return View(pvm);
         }
@@ -59,6 +66,9 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult Edit(int id)
     {
+        var securityCheck = CheckAdminPermissions(); 
+            if (securityCheck != null) return securityCheck; 
+
         var p = _repoProducto.Get(id);
         return View(p);
     }
@@ -66,6 +76,9 @@ public class ProductosController : Controller
     [HttpPost]
     public IActionResult Edit(int id, ProductoViewModel pvm)
     {
+        var securityCheck = CheckAdminPermissions(); 
+            if (securityCheck != null) return securityCheck; 
+            
         if (pvm == null || id != pvm.IdProducto)
         {
             return NotFound();
@@ -86,13 +99,19 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult Delete(int id)
     {
+        var securityCheck = CheckAdminPermissions(); 
+            if (securityCheck != null) return securityCheck; 
+
         var p = _repoProducto.Get(id);
         return View(p);
     }
 
     [HttpPost]
     public IActionResult Delete(Producto p)
-    {           
+    {   
+        var securityCheck = CheckAdminPermissions(); 
+            if (securityCheck != null) return securityCheck; 
+
         _repoProducto.Delete(p.IdProducto);
         return RedirectToAction("Index");
     }

@@ -30,10 +30,13 @@ public class PresupuestosController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        var securityCheck = CheckAdminPermissions();
+        var securityCheck = CheckClientePermissions();
         if (securityCheck != null)
         {
-            return securityCheck;
+            var adminCheck = CheckAdminPermissions();
+            if (adminCheck!=null){
+                return securityCheck;
+            }
         }
 
         var presupuestos = _repoPresu.GetAll(true);
@@ -58,12 +61,23 @@ public class PresupuestosController : Controller
     [HttpGet]
     public IActionResult Create()
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null)
+        {
+            return securityCheck;
+        }
         return View();
     }
 
     [HttpPost]
     public IActionResult Create(PresupuestoViewModel pvm)
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null)
+        {
+            return securityCheck;
+        }
+
         if (!ModelState.IsValid)
         {
             return View(pvm);
@@ -85,6 +99,11 @@ public class PresupuestosController : Controller
     [HttpGet]
     public IActionResult Edit(int id)
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null)
+        {
+            return securityCheck;
+        }
         var p = _repoPresu.Get(id);
         return View(p);
     }
@@ -92,6 +111,11 @@ public class PresupuestosController : Controller
     [HttpPost]
     public IActionResult Edit(Presupuesto p)
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null)
+        {
+            return securityCheck;
+        }
         _repoPresu.Update(p);   
         if (p.Detalle != null)
         {
@@ -108,6 +132,12 @@ public class PresupuestosController : Controller
     [HttpGet]
     public IActionResult Delete(int id)
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null)
+        {
+            return securityCheck;
+        }
+
         var p = _repoPresu.Get(id);
         return View(p);
     }
@@ -115,6 +145,12 @@ public class PresupuestosController : Controller
     [HttpPost]
     public IActionResult Delete(Presupuesto p)
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null)
+        {
+            return securityCheck;
+        }
+
         _repoPresu.Delete(p.IdPresupuesto);
         return RedirectToAction(nameof(Index));
     }
@@ -122,6 +158,12 @@ public class PresupuestosController : Controller
     ////////////////////////////////////////////////////////////////////////
     [HttpGet]
     public IActionResult AgregarProducto(int id){
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null)
+        {
+            return securityCheck;
+        }
+
         List<Producto> productos = _repoProducto.GetAll();
         var apvm = new AgregarProductoViewModel
         {
@@ -134,6 +176,12 @@ public class PresupuestosController : Controller
     [HttpPost]
     public IActionResult AgregarProducto(AgregarProductoViewModel model)
     {
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null)
+        {
+            return securityCheck;
+        }
+
         if (!ModelState.IsValid)
         {
             var productos = _repoProducto.GetAll();
@@ -170,6 +218,20 @@ public class PresupuestosController : Controller
         } 
 
         if (!_auth.HasAccessLevel("Cliente")) 
+        { 
+            return RedirectToAction(nameof(AccesoDenegado)); 
+        } 
+        return null; // Permiso concedido 
+    } 
+
+    private IActionResult CheckAnyPermissions() 
+    { 
+        if (!_auth.IsAuthenticated()) 
+        { 
+            return RedirectToAction("Index", "Login"); 
+        } 
+
+        if (!_auth.HasAccessLevel("Cliente") || !_auth.HasAccessLevel("Administrador")) 
         { 
             return RedirectToAction(nameof(AccesoDenegado)); 
         } 
